@@ -1,7 +1,7 @@
 import sys #här importeras funktionen exit  
 
 class GameLogic: 
-    #det här funktionen för att se när spelaren vinner
+    #det här funktionen för att se när spelaren vinner och den returnerar en boolean
     def checkWinner(self, player, board): 
         if (
             (player == board["topL"] == board["topM"] == board["topR"])
