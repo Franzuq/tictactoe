@@ -1,41 +1,22 @@
 import sys #här importeras funktionen exit  
+from gameboard import GameBoard
 
-#det här en library, jag satte varje value som blank space 
-#under spelets gång kommer blank spaces ändras till X eller O 
-theBoard = {
-    "top-L": " ",
-    "top-M": " ",
-    "top-R": " ",
-    "mid-L": " ",
-    "mid-M": " ",
-    "mid-R": " ",
-    "bot-L": " ",
-    "bot-M": " ",
-    "bot-R": " ",
-}
-
-#det här är funktionen för att printa board
-def printBoard(board):
-    print(" " + board["top-L"] + "|" + board["top-M"] + "|" + board["top-R"])
-    print("--+-+--")
-    print(" " + board["mid-L"] + "|" + board["mid-M"] + "|" + board["mid-R"])
-    print("--+-+--")
-    print(" " + board["bot-L"] + "|" + board["bot-M"] + "|" + board["bot-R"])
+theBoard = GameBoard()
 
 #det här funktionen för att se när spelaren vinner
 #här checkar vi om playerMark finns på alla möjliga ställen där man kan vinna 
 def checkWinner(player):
     if (
-        (player == theBoard["top-L"] == theBoard["top-M"] == theBoard["top-R"])
-        or (player == theBoard["mid-L"] == theBoard["mid-M"] == theBoard["mid-R"])
-        or (player == theBoard["bot-L"] == theBoard["bot-M"] == theBoard["bot-R"])
-        or (player == theBoard["top-L"] == theBoard["mid-L"] == theBoard["bot-L"])
-        or (player == theBoard["top-M"] == theBoard["mid-M"] == theBoard["bot-M"])
-        or (player == theBoard["top-R"] == theBoard["mid-R"] == theBoard["bot-R"])
-        or (player == theBoard["top-L"] == theBoard["mid-M"] == theBoard["bot-R"])
-        or (player == theBoard["top-R"] == theBoard["mid-M"] == theBoard["bot-L"])
+        (player == theBoard.board["topL"] == theBoard.board["topM"] == theBoard.board["topR"])
+        or (player == theBoard.board["midL"] == theBoard.board["midM"] == theBoard.board["midR"])
+        or (player == theBoard.board["botL"] == theBoard.board["botM"] == theBoard.board["botR"])
+        or (player == theBoard.board["topL"] == theBoard.board["midL"] == theBoard.board["botL"])
+        or (player == theBoard.board["topM"] == theBoard.board["midM"] == theBoard.board["botM"])
+        or (player == theBoard.board["topR"] == theBoard.board["midR"] == theBoard.board["botR"])
+        or (player == theBoard.board["topL"] == theBoard.board["midM"] == theBoard.board["botR"])
+        or (player == theBoard.board["topR"] == theBoard.board["midM"] == theBoard.board["botL"])
     ):
-        printBoard(theBoard)
+        theBoard.printBoard() 
         print(player + " vann spelet, spelet avslutas nu ") #här säger spelet när det har slutats
         sys.exit() #den här funktionen avslutar programmet
 
@@ -44,7 +25,7 @@ def checkIfTie(board):
     tie = all(value != " " for value in board.values()) #vi checkar om alla values inte är like med blank space och vi får tillbaka en boolean 
     #tie blir en boolean
     if (tie): #om tie är true blir det oavgjort
-        printBoard(theBoard)
+        theBoard.printBoard()
         print("Det blev oavgjort, spelet avslutas nu")
         sys.exit() 
 
@@ -53,16 +34,16 @@ def checkIfTie(board):
 playerMark = "x"
 #här är loopen för spelet 
 for i in range(9999):
-    printBoard(theBoard)
+    theBoard.printBoard() 
     print("Det är " + playerMark + " tur")
     move = input() #här frågar jag spelarens input och sparar den i en value
-    if move in theBoard and theBoard[move] == " ": #jag checkar om spelarens input är faktiskt en key i vår board och om den key inte redan är ifylld 
-        theBoard[move] = playerMark 
+    if move in theBoard.board and theBoard.board[move] == " ": #jag checkar om spelarens input är faktiskt en key i vår board och om den key inte redan är ifylld 
+        theBoard.board[move] = playerMark 
     else: #om key inte finns eller redan är ifylld printas ett meddelande 
         print("Platsen du skrev finns inte eller är redan ifylld")
         continue #börjar om loopen
-    theBoard[move] = playerMark #här ersätter jag en av bordens value med en mark 
-    checkIfTie(theBoard)
+    theBoard.board[move] = playerMark #här ersätter jag en av bordens value med en mark 
+    checkIfTie(theBoard.board)
     if playerMark == "x": #om spelarens mark är lika med x 
         checkWinner(playerMark)
         playerMark = "o" #spelarens mark blir o
