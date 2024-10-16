@@ -10,7 +10,7 @@ for i in range(9999):
     if not theBoard.validInput(move): #om inputen inte är korrekt skickas ett meddelande
         print("Platsen du skrev finns inte eller är redan ifylld")
         continue #börjar om loopen
-    theBoard.checkIfTie()
     theBoard.checkWinner()
+    theBoard.checkIfTie()
     theBoard.changeTurn()   
     
